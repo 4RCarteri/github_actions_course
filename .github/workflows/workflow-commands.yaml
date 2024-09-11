@@ -13,3 +13,12 @@ jobs:
         run: echo "::warning title=Warning title,file=app.js,line=2,endLine=3,endColumn=4::This is an error message."
       - name: Setting a notice message with parameters
         run: echo "::notice title=Notice title,file=app.js,line=2,endLine=3,endColumn=4::This is an error message.."
+      - name: Group of logs
+        run: |
+          echo "::goup::My group title"
+          echo "This is the first line of the group."
+          echo "::endgroup::"
+      - name: Masking a value
+        run: echo "::add-mask::Secret string"
+      - name: Echo a secret
+        run: echo "Secret string"
