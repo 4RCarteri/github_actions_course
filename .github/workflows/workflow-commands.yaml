@@ -12,4 +12,4 @@ jobs:
       - name: Setting a warning message with parameters
         run: echo "::warning title=Warning title,file=app.js,line=2,endLine=3,endColumn=4::This is an error message."
       - name: Setting a notice message with parameters
-        run: echo "::notice title=Notice title,file=app.js,line=2,endLine=3,endColumn=4::This is an error message."
+        run: echo "::notice title=Notice title,file=app.js,line=2,endLine=3,endColumn=4::This is an error message.."
