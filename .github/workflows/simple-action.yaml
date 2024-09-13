@@ -7,7 +7,7 @@ jobs:
         steps:
             - name: Simple JS Action
               id: greet
-              uses: actions/hello-world-javascript-action@e76147da8e5c81eaf017dede5645551d4b94427b
+              uses: actions/hello-world-javascript-action@0da7e0678dc518acac69be5056352f91f6e3883f
               with:
                 who-to-greet: Ricardo
             - name: Log Greeting time
