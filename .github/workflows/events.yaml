@@ -4,7 +4,7 @@ on:
     pull_request:
         types: [opened, assigned, synchronize]
     issues:
-        types: [opened]
+        types: [opened, assigned, closed]
 
 jobs:
     checkout-test:
