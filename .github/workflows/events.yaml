@@ -10,12 +10,12 @@ on:
         # paths-ignore if you didn't use branches
         # branches-ignore:
         #     - develop
-        tags:
-            - v1.* # matches v1.0, v1.1, etc.
-            - "!v1.1.1" # matches all tags except v1.1.1
+        # tags:
+        #     - v1.* # matches v1.0, v1.1, etc.
+        #     - "!v1.1.1" # matches all tags except v1.1.1
         paths:
             - "**.js" # matches all js files
-            - "!app.js" # matches all files except app.js
+            # - "!app.js" # matches all files except app.js
     pull_request:
         types: [opened, assigned, synchronize]
         # the same use of push: branches, tags, paths
