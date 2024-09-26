@@ -1,0 +1,16 @@
+name: Stale Issue and PRs
+on:
+    schedule:
+        # https://crontab.guru/  for test the time
+        - cron: '0 14 * * *' 
+        - cron: '0/5 * * * *' #Just for testing
+jobs:
+    stale:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/stale@v9
+              with:
+                  stale-issue-message: 'This is some message'
+                  stale-pr-message: 'This pull request is stale because it has been open for 60 days with no activity.'
+                  days-before-stale: 0
+                  days-before-close: 5
