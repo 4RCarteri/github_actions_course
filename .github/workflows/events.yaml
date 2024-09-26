@@ -1,8 +1,28 @@
 name: Repository events
 on: 
     push:
+        # all the filters should match to trigger the workflow
+        branches:
+            - main
+            - "feature/*" # matchs feature/featA, feature/featB, etc. Does not match featureA or feature/A/B
+            - feature/** # matches feature/featA, feature/featB, feature/A/B, etc.
+            - "!feature/featA" # matches all branches except feature/featA
+        # paths-ignore if you didn't use branches
+        # branches-ignore:
+        #     - develop
+        # tags:
+        #     - v1.* # matches v1.0, v1.1, etc.
+        #     - "!v1.1.1" # matches all tags except v1.1.1
+        paths:
+            - "**.js" # matches all js files
+            # - "!app.js" # matches all files except app.js
     pull_request:
         types: [opened, assigned, synchronize]
+        # the same use of push: branches, tags, paths
+        branches:
+            - main
+        paths:
+            - "**.js"
     issues:
         types: [opened, assigned, closed]
 
