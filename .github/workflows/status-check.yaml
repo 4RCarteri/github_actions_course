@@ -11,6 +11,7 @@ jobs:
               id: step-2
               run: exit 1
             - name: Runs on step-2 failure
+              # it needs to have failure() and the previous step to have failed, bacause the default value is success() && ...
               if: failure() && steps.step-2.outcome == 'failure'
               run: echo "This step runs only on step-2 failure"
             - name: Runs on Failure
