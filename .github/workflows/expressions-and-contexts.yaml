@@ -1,5 +1,5 @@
 name: Expressions and Contexts
-on: [push, pull_request, issues, worflow_dispatch]
+on: [push, pull_request, issues, workflow_dispatch]
 
 jobs:
     uning_expressions-and-contexts:
