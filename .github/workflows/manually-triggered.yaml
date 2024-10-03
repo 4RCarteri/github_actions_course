@@ -1,0 +1,47 @@
+# to trigger by api: https://docs.github.com/en/rest/actions/workflows?apiVersion=2022-11-28#create-a-workflow-dispatch-event
+name: Manually triggered
+on:
+  workflow_dispatch:
+    inputs:
+        string:
+            description: A string input
+            type: string
+            required: true
+            default: 'Default string'
+        number:
+            description: A number input
+            type: number
+            required: true
+            default: 42
+        options:
+            description: A selection input
+            type: choice
+            required: true
+            default: 'option1'
+            options:
+                - option1
+                - option2
+                - option3
+        boolean:
+            description: A boolean input
+            type: boolean
+            required: true
+            default: true
+        environment:
+            description: An environment input
+            type: environment
+            required: true
+jobs:
+    log-info:
+        runs-on: ubuntu-latest
+        steps:
+            - run: |
+                echo $GITHUB_SHA
+                echo $GITHUB_REF
+                echo $GITHUB_WORKSPACE
+            - run: |
+                echo "String: ${{ inputs.string }}"
+                echo "Number: ${{ inputs.number }}"
+                echo "Options: ${{ inputs.options }}"
+                echo "Boolean: ${{ inputs.boolean }}"
+                echo "Environment: ${{ inputs.environment }}"

@@ -1,0 +1,45 @@
+name: Environment variables
+on: [push]
+
+env:
+    WF_LEVEL_ENV: Available to all jobs
+jobs:
+    env-vars-and-contexts:
+      runs-on: ubuntu-latest
+      if: github.ref == 'refs/heads/main'
+      env:
+        JOB_LEVEL_ENV: Available to all steps in this job
+      steps:
+        - name: Log ENV VAR
+          run: echo $GITHUB_REF
+          # Returns
+          # Run echo $GITHUB_REF
+          # refs/heads/main
+        - name: Log CONTEXTS
+          run: echo '${{ github.ref }}'
+          # Returns
+            # Run echo 'refs/heads/main'
+            # refs/heads/main
+        - name: Set Env var
+          run: |
+            DELIMITER=1234
+            echo "RANDOM_JOKE<<$DELIMITER" >> "$GITHUB_ENV"
+            echo "Here is a joke: " >> "$GITHUB_ENV"
+            curl -s https://icanhazdadjoke.com/ >> "$GITHUB_ENV"
+            echo "" >> "$GITHUB_ENV"
+            echo "$DELIMITER" >> "$GITHUB_ENV"
+        - name: Multiline Env var
+          run: |
+            echo "MULTILINE_ENV_VAR=This is a multiline
+            environment variable" >> "$GITHUB_ENV"
+        - name: Log Custom ENV VAR
+          env:
+            STEP_LEVEL_ENV: Available only to this step
+            WF_LEVEL_ENV: Overwrite the WF_LEVEL_ENV
+          run: |
+            echo '${{ env.STEP_LEVEL_ENV }}'
+            echo $STEP_LEVEL_ENV
+            echo $WF_LEVEL_ENV
+            echo $JOB_LEVEL_ENV
+            echo $NEW_ENV_VAR
+            echo $RANDOM_JOKE
