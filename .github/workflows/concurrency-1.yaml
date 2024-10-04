@@ -7,6 +7,12 @@ on:
         type: 'environment'
         required: true
     
+# used to avoid having multiple workflows running at the same time, it will run only the last one
+concurrency: 
+  # group: concurrency-1
+  # by making the group dinamic, it will run only the last workflow with the same group name
+  group: ${{ github.event.inputs.environment }}
+  cancel-in-progress: true
 jobs:
     sleep:
         runs-on: ubuntu-latest
