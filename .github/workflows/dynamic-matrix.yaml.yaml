@@ -19,7 +19,8 @@ jobs:
           - uses: actions/github-script@v7
             id: matrix-arrays
             with:
-              script: "return {os: context.payload.inputs['os'].split(,) 'node-version': context.payload.inputs['node-version'].split(,)}"
+              script: "return {os: context.payload.inputs['os'].split(','), 
+              'node-version': context.payload.inputs['node-version'].split(',')}"
               result-encoding: json
           - run: echo "${{ steps.matrix-arrays.outputs.result }}"
           # example of how to use the matrix-arrays output
