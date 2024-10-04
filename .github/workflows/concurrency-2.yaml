@@ -1,4 +1,5 @@
 name: Concurrency 2
+run-name: Concurrency 2 (${{ inputs.environment }})
 on: 
   workflow_dispatch:
     inputs:
@@ -7,6 +8,12 @@ on:
         type: 'environment'
         required: true
     
+# used to avoid having multiple workflows running at the same time, it will run only the last one
+concurrency: 
+  # group: concurrency-1
+  # by making the group dinamic, it will run only the last workflow with the same group name, using github.workflow to make it unique for each workflow too
+  group: ${{ github.workflow }}-${{ github.event.inputs.environment }}
+  cancel-in-progress: true
 jobs:
     sleep:
         runs-on: ubuntu-latest
