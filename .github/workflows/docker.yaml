@@ -40,4 +40,4 @@ jobs:
           uses: docker://node:18-alpine3.19
           with:
             entrypoint: cat
-            args: text.txt
+            args: file.txt
