@@ -25,6 +25,8 @@ jobs:
             cat /etc/os-release
         - name: Log Environment Variables
           run: echo $API_URL
+        - name: Create a file
+          run: echo 'Some text' > file.txt
         - name: Container in a Step
           uses: docker://node:20-alpine3.19
           with:
@@ -34,3 +36,8 @@ jobs:
           uses: docker://node:18-alpine3.19
           with:
             args: -v
+        - name: Display file contents
+          uses: docker://node:18-alpine3.19
+          with:
+            entrypoint: cat
+            args: text.txt
