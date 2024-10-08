@@ -41,3 +41,12 @@ jobs:
           with:
             entrypoint: cat
             args: file.txt
+        - uses: actions/checkout@v4
+        - name: Run a bash script
+          uses: docker://node:18-alpine3.19
+          with:
+            # Run
+            # Windows: git add --chmod=+x .\script.sh
+            # Linux/mac: chmod +x script.sh
+            entrypoint: ./script.sh
+            args: "Some Script"
