@@ -50,3 +50,13 @@ jobs:
             # Linux/mac: chmod +x script.sh
             entrypoint: ./script.sh
             args: "Some Script"
+        # WEX doesn't support Slack access
+        # - name: Send a slack message
+        #   uses: docker://technosophos/slack-notify
+        #   env:
+        #     SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        #     SLACK_USERNAME: GitHub Actions
+        #     SLACK_TITLE: From github actions
+        #     SLACK_MESSAGE: "Actor: ${{ github.actor }}, Event: ${{ github.event_name }}"
+        #     SLACK_COLOR: "#723fc4"
+        #     SLACK_ICON: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
