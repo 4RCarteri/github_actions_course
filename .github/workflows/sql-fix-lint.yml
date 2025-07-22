@@ -1,0 +1,80 @@
+name: SQL Verify
+description: |
+  This workflow performs SQL linting and fixing using sqlfluff and reviewdog.
+  It is designed to be reusable via `workflow_call` and can be used in other workflows.
+on:
+  workflow_call:
+    inputs:
+      paths:
+        description: "Path(s) to the SQL files or directories to check"
+        required: true
+        type: string
+      config:
+        description: "Path to the sqlfluff configuration file"
+        required: false
+        type: string
+        default: "${{ github.workspace }}/sql-verify/.sqlfluff"
+      dialect:
+        description: "SQL dialect to use (e.g., tsql, ansi, etc.) https://docs.sqlfluff.com/en/stable/reference/dialects.html"
+        required: true
+        type: string
+      exclude-rules:
+        description: "Codes for unfixable linting violations. These will be reported during lint and should be handled manually."
+        required: false
+        type: string
+        default: "AL04,ST11,references"
+    secrets:
+      GITHUB_TOKEN:
+        description: "GitHub token for PR review comments and authentication"
+        required: true
+
+jobs:
+  resolve-outdated-comment:
+    name: "Auto Resolve Comment"
+    runs-on: ubuntu-latest
+    # This job automatically resolves outdated pull request comments using the specified GitHub Action.
+    steps:
+      - uses: Ardiannn08/resolve-outdated-comment@v1.3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          mode: resolve
+
+  fix:
+    name: Fix
+    runs-on: ubuntu-latest
+    needs: resolve-outdated-comment
+    # This job runs after outdated comments are resolved.
+    # It uses sqlfluff to automatically fix SQL style issues in the code.
+    steps:
+      - uses: actions/checkout@v4
+      - uses: yu-iskw/action-sqlfluff@v5
+        with:
+          sqlfluff_command: fix # Runs the 'fix' command to auto-correct SQL formatting issues
+          reporter: github-pr-review # Reports results as comments on the pull request
+          fail_on_error: true # Fails the job if any error is found
+          sqlfluff_version: 3.4.2 # Specifies the version of sqlfluff to use
+          github_token: ${{ secrets.GITHUB_TOKEN }} # Uses the provided GitHub token
+          config: ${{ inputs.config }} # Path to the sqlfluff config file
+          paths: ${{ inputs.paths }} # Path(s) to the SQL files to fix
+          dialect: ${{ inputs.dialect }} # SQL dialect
+          exclude-rules: ${{ inputs.exclude-rules }} # Linting rules to exclude from fixing
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    needs: fix
+    # This job always runs after the Fix job, even if Fix fails.
+    # It lints the SQL files and reports any remaining issues, including unfixable violations.
+    if: always()
+    steps:
+      - uses: actions/checkout@v4
+      - uses: yu-iskw/action-sqlfluff@v5
+        with:
+          sqlfluff_command: lint # Runs the 'lint' command to check for SQL formatting issues
+          reporter: github-pr-review # Reports results as comments on the pull request
+          fail_on_error: true # Fails the job if any error is found
+          sqlfluff_version: 3.4.2 # Specifies the version of sqlfluff to use
+          github_token: ${{ secrets.GITHUB_TOKEN }} # Uses the provided GitHub token
+          config: ${{ inputs.config }} # Path to the sqlfluff config file
+          paths: ${{ inputs.paths }} # Path(s) to the SQL files to lint
+          dialect: ${{ inputs.dialect }} # SQL dialect
