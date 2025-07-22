@@ -13,7 +13,7 @@ on:
         description: "Path to the sqlfluff configuration file"
         required: false
         type: string
-        default: "${{ github.workspace }}/sql-verify/.sqlfluff"
+        default: "${{ github.workspace }}/.sqlfluff"
       dialect:
         description: "SQL dialect to use (e.g., tsql, ansi, etc.) https://docs.sqlfluff.com/en/stable/reference/dialects.html"
         required: true
