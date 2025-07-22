@@ -23,10 +23,6 @@ on:
         required: false
         type: string
         default: "AL04,ST11,references"
-    secrets:
-      GITHUB_TOKEN:
-        description: "GitHub token for PR review comments and authentication"
-        required: true
 
 jobs:
   resolve-outdated-comment:
